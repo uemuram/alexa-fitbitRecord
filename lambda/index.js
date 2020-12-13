@@ -20,6 +20,8 @@ const LaunchRequestHandler = {
 
     // TODO 体重はxxキロ、という言い方でも対応できるようにする
     // TODO ダイアログモデルで何かできる?
+    // よさそうだが今回は数値入力のせいで無理かな・・・
+    // https://developer.amazon.com/ja-JP/docs/alexa/custom-skills/define-the-dialog-to-collect-and-confirm-required-information.html
 };
 
 const SelectLogTypeIntentHandler = {
@@ -86,8 +88,12 @@ const RecordLogIntent = {
 
         // TODO 上限値の設定が必要
 
+        // 本日日付け(日本時間にするために+9時間する)
+        let today = new Date();
+        today.setHours(today.getHours() + 9);
+
         // リクエストURL組み立て
-        const url = `https://api.fitbit.com/1/user/-/body/log/weight.json?weight=${logValue}&date=${util.formatDate(new Date())}`
+        const url = `https://api.fitbit.com/1/user/-/body/log/weight.json?weight=${logValue}&date=${util.formatDate(today)}`
         console.log(`url : ${url}`);
 
         let response;
