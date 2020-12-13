@@ -33,10 +33,6 @@
                         {
                             "name": "Decimal",
                             "type": "AMAZON.FOUR_DIGIT_NUMBER"
-                        },
-                        {
-                            "name": "OnesPlacePoint",
-                            "type": "ONES_PLACE_POINT"
                         }
                     ],
                     "samples": [
@@ -53,129 +49,7 @@
                     "samples": []
                 }
             ],
-            "types": [
-                {
-                    "name": "ONES_PLACE_POINT",
-                    "values": [
-                        {
-                            "id": "1",
-                            "name": {
-                                "value": "いってん"
-                            }
-                        },
-                        {
-                            "id": "2",
-                            "name": {
-                                "value": "にーてん"
-                            }
-                        },
-                        {
-                            "id": "3",
-                            "name": {
-                                "value": "さんてん"
-                            }
-                        },
-                        {
-                            "id": "4",
-                            "name": {
-                                "value": "よんてん"
-                            }
-                        },
-                        {
-                            "id": "5",
-                            "name": {
-                                "value": "ごーてん"
-                            }
-                        },
-                        {
-                            "id": "6",
-                            "name": {
-                                "value": "ろくてん"
-                            }
-                        },
-                        {
-                            "id": "7",
-                            "name": {
-                                "value": "ななてん"
-                            }
-                        },
-                        {
-                            "id": "8",
-                            "name": {
-                                "value": "はってん"
-                            }
-                        },
-                        {
-                            "id": "9",
-                            "name": {
-                                "value": "きゅうてん"
-                            }
-                        },
-                        {
-                            "id": "10",
-                            "name": {
-                                "value": "じゅってん"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "INTEGER",
-                    "values": [
-                        {
-                            "id": "1",
-                            "name": {
-                                "value": "いち"
-                            }
-                        },
-                        {
-                            "id": "2",
-                            "name": {
-                                "value": "に"
-                            }
-                        },
-                        {
-                            "id": "70",
-                            "name": {
-                                "value": "ななじゅう"
-                            }
-                        },
-                        {
-                            "id": "71",
-                            "name": {
-                                "value": "ななじゅういち"
-                            }
-                        },
-                        {
-                            "id": "72",
-                            "name": {
-                                "value": "ななじゅうに",
-                                "synonyms": [
-                                    "ななじゅうにぃ"
-                                ]
-                            }
-                        },
-                        {
-                            "id": "73",
-                            "name": {
-                                "value": "ななじゅうさん"
-                            }
-                        },
-                        {
-                            "id": "74",
-                            "name": {
-                                "value": "ななじゅうよん"
-                            }
-                        },
-                        {
-                            "id": "75",
-                            "name": {
-                                "value": "ななじゅうご"
-                            }
-                        }
-                    ]
-                }
-            ]
+            "types": []
         }
     }
 }
