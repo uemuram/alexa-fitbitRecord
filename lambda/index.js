@@ -2,32 +2,115 @@
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
 const Alexa = require('ask-sdk-core');
+const Axios = require('axios');
+const CommonUtil = require('./CommonUtil.js');
+const util = new CommonUtil();
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
+        const speakOutput = '何を記録しますか?';
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
+    }
+
+    // TODO 体重はxxキロ、という言い方でも対応できるようにする
+    // TODO ダイアログモデルで何かできる?
+};
+
+const SelectLogTypeIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SelectLogTypeIntent';
+    },
+    handle(handlerInput) {
+        const speakOutput = '今日の体重を教えてください。';
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)
             .getResponse();
     }
 };
-const HelloWorldIntentHandler = {
+
+const RecordLogIntent = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RecordLogIntent';
     },
-    handle(handlerInput) {
-        const speakOutput = 'Hello World!';
+    async handle(handlerInput) {
+        // アクセストークンを取得
+        const token = Alexa.getAccountLinkingAccessToken(handlerInput.requestEnvelope);
+        // TODO トークン取得ができなかった時の処理
+
+        // スロット値を取得
+        const integerSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Integer');
+        console.log('スロット値(Integer) : ' + integerSlotValue);
+        const onesPlacePointSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'OnesPlacePoint');
+        console.log('スロット値(OnesPlacePoint) : ' + onesPlacePointSlotValue);
+        const decimalSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Decimal');
+        console.log('スロット値(Decimal) : ' + decimalSlotValue);
+
+        // 値を整理
+        let logValue = parseInt(integerSlotValue);
+        if (decimalSlotValue) {
+            logValue += parseFloat(`0.${decimalSlotValue}`);
+        }
+
+        // 値が正しくとれない場合が多いためケア
+        if (logValue >= 1000) {
+            console.log('値修復');
+            let logValueStr = logValue + '';
+            const logValueChars = logValueStr.split('');
+
+            if (logValueChars[2] == '1' || logValueChars[2] == '8') {
+                // 72.6が7216や7286になってしまう問題の対応
+                console.log('修正パターンA');
+                logValue = parseFloat(`${logValueChars[0]}${logValueChars[1]}.${logValueChars[3]}`);
+            } else if (logValueChars[1] == '0') {
+                // 75.3が7053になってしまう問題の対応
+                console.log('修正パターンB');
+                logValue = parseFloat(`${logValueChars[0]}${logValueChars[2]}.${logValueChars[3]}`);
+            } else {
+                // 72.33が7233になってしまう問題の対応
+                console.log('修正パターンC');
+                logValue = parseFloat(`${logValueChars[0]}${logValueChars[1]}.${logValueChars[2]}${logValueChars[3]}`);
+            }
+            console.log(`${logValueStr} -> ${logValue}`);
+        }
+        // 小数第2位で四捨五入
+        logValue = (Math.round(logValue * 10)) / 10;
+
+        // TODO 上限値の設定が必要
+
+        // リクエストURL組み立て
+        const url = `https://api.fitbit.com/1/user/-/body/log/weight.json?weight=${logValue}&date=${util.formatDate(new Date())}`
+        console.log(`url : ${url}`);
+
+        let response;
+        try {
+            response = await Axios.post(
+                url,
+                null,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+        } catch (error) {
+            console.log(JSON.stringify(error.response.data));
+        }
+        console.log(response.data);
+
+        const speakOutput = `体重を${logValue}キロで記録しました。`;
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .withSimpleCard('タイトル', integerSlotValue + "/" + decimalSlotValue)
+            .reprompt(speakOutput)
             .getResponse();
     }
 };
+
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -42,6 +125,7 @@ const HelpIntentHandler = {
             .getResponse();
     }
 };
+
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
@@ -55,6 +139,7 @@ const CancelAndStopIntentHandler = {
             .getResponse();
     }
 };
+
 const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
@@ -102,19 +187,35 @@ const ErrorHandler = {
     }
 };
 
+// リクエストインターセプター(エラー調査用)
+const RequestLog = {
+    process(handlerInput) {
+        //console.log("REQUEST ENVELOPE = " + JSON.stringify(handlerInput.requestEnvelope));
+        console.log("HANDLER INPUT = " + JSON.stringify(handlerInput));
+        const requestType = Alexa.getRequestType(handlerInput.requestEnvelope);
+        console.log("REQUEST TYPE =  " + requestType);
+        if (requestType === 'IntentRequest') {
+            console.log("INTENT NAME =  " + Alexa.getIntentName(handlerInput.requestEnvelope));
+        }
+        return;
+    }
+};
+
 // The SkillBuilder acts as the entry point for your skill, routing all request and response
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        SelectLogTypeIntentHandler,
+        RecordLogIntent,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler,
         IntentReflectorHandler, // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
-        ) 
+    )
     .addErrorHandlers(
         ErrorHandler,
-        )
+    )
+    .addRequestInterceptors(RequestLog)
     .lambda();
