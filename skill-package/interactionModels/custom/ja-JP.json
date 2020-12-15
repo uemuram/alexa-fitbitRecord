@@ -15,6 +15,57 @@
                     "name": "AMAZON.StopIntent",
                     "samples": []
                 },
+
+                {
+                    "name": "RecordWeightLogIntent",
+                    "slots": [
+                        {
+                            "name": "Integer",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "Decimal",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "体重 {Integer} ",
+                        "体重 {Integer} 点 {Decimal} ",
+                        "体重 {Integer} キロ",
+                        "体重 {Integer} 点 {Decimal} キロ",
+                        "体重 {Integer} キログラム",
+                        "体重 {Integer} 点 {Decimal} キログラム",
+
+                        "体重 {Integer} で記録",
+                        "体重 {Integer} 点 {Decimal} で記録",
+                        "体重 {Integer} キロ で記録",
+                        "体重 {Integer} 点 {Decimal} キロ で記録",
+                        "体重 {Integer} キログラム で記録",
+                        "体重 {Integer} 点 {Decimal} キログラム で記録",
+
+                        "体重 {Integer} で記録して",
+                        "体重 {Integer} 点 {Decimal} で記録して",
+                        "体重 {Integer} キロ で記録して",
+                        "体重 {Integer} 点 {Decimal} キロ で記録して",
+                        "体重 {Integer} キログラム で記録して",
+                        "体重 {Integer} 点 {Decimal} キログラム で記録して",
+
+                        "体重を {Integer} で記録",
+                        "体重を {Integer} 点 {Decimal} で記録",
+                        "体重を {Integer} キロ で記録",
+                        "体重を {Integer} 点 {Decimal} キロ で記録",
+                        "体重を {Integer} キログラム で記録",
+                        "体重を {Integer} 点 {Decimal} キログラム で記録",
+
+                        "体重を {Integer} で記録して",
+                        "体重を {Integer} 点 {Decimal} で記録して",
+                        "体重を {Integer} キロ で記録して",
+                        "体重を {Integer} 点 {Decimal} キロ で記録して",
+                        "体重を {Integer} キログラム で記録して",
+                        "体重を {Integer} 点 {Decimal} キログラム で記録して"
+                    ]
+                },
+
                 {
                     "name": "SelectLogTypeIntent",
                     "slots": [],
