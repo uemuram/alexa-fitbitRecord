@@ -17,8 +17,6 @@ class Logic {
         // スロット値を取得
         const integerSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Integer');
         console.log('スロット値(Integer) : ' + integerSlotValue);
-        const onesPlacePointSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'OnesPlacePoint');
-        console.log('スロット値(OnesPlacePoint) : ' + onesPlacePointSlotValue);
         const decimalSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Decimal');
         console.log('スロット値(Decimal) : ' + decimalSlotValue);
 
