@@ -49,7 +49,7 @@ class CommonUtil {
         }
         return parameter;
     }
-   
+
     // 同じ日付けかどうか判定する
     isSameDate(date1, date2) {
         if (
@@ -69,6 +69,39 @@ class CommonUtil {
             + '-' + ('0' + (date.getMonth() + 1)).slice(-2)
             + '-' + ('0' + date.getDate()).slice(-2);
     }
+
+    // 整数部と小数部の数値から結果の数値を返す。Alexaの音声認識の都合で正しく認識できない場合は補正する。
+    adjustDecimalValue(integerValue, decimalValue) {
+        // 整数部と小数部を結合
+        let value = parseInt(integerValue);
+        if (decimalValue) {
+            value += parseFloat(`0.${decimalValue}`);
+        }
+
+        // 値が正しくとれない場合が多いためケア
+        if (value >= 1000) {
+            console.log('値修復');
+            let valueStr = value + '';
+            const valueChars = valueStr.split('');
+
+            if (valueChars[2] == '1' || valueChars[2] == '8') {
+                // 72.6が7216や7286になってしまう問題の対応
+                console.log('修正パターンA');
+                value = parseFloat(`${valueChars[0]}${valueChars[1]}.${valueChars[3]}`);
+            } else if (valueChars[1] == '0') {
+                // 75.3が7053になってしまう問題の対応
+                console.log('修正パターンB');
+                value = parseFloat(`${valueChars[0]}${valueChars[2]}.${valueChars[3]}`);
+            } else {
+                // 72.33が7233になってしまう問題の対応
+                console.log('修正パターンC');
+                value = parseFloat(`${valueChars[0]}${valueChars[1]}.${valueChars[2]}${valueChars[3]}`);
+            }
+            console.log(`${valueStr} -> ${value}`);
+        }
+        return value;
+    }
+
 }
 
 module.exports = CommonUtil;

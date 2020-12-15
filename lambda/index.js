@@ -46,12 +46,13 @@ const RecordWeightLogIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RecordWeightLogIntent';
     },
-    handle(handlerInput) {
-        const speakOutput = '体重を記録します';
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
+    async handle(handlerInput) {
+        // アクセストークンを取得
+        const token = Alexa.getAccountLinkingAccessToken(handlerInput.requestEnvelope);
+        // TODO トークン取得ができなかった時の処理
+        // TODO セッションを判別して何を計測するかを判定
+
+        return logic.recodeWeight(handlerInput, token);
     }
 };
 
@@ -67,7 +68,6 @@ const RecordLogIntentHandler = {
         // TODO セッションを判別して何を計測するかを判定
 
         return logic.recodeWeight(handlerInput, token);
-
     }
 };
 

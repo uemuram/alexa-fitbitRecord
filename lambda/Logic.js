@@ -23,32 +23,7 @@ class Logic {
         console.log('スロット値(Decimal) : ' + decimalSlotValue);
 
         // 値を整理
-        let logValue = parseInt(integerSlotValue);
-        if (decimalSlotValue) {
-            logValue += parseFloat(`0.${decimalSlotValue}`);
-        }
-
-        // 値が正しくとれない場合が多いためケア
-        if (logValue >= 1000) {
-            console.log('値修復');
-            let logValueStr = logValue + '';
-            const logValueChars = logValueStr.split('');
-
-            if (logValueChars[2] == '1' || logValueChars[2] == '8') {
-                // 72.6が7216や7286になってしまう問題の対応
-                console.log('修正パターンA');
-                logValue = parseFloat(`${logValueChars[0]}${logValueChars[1]}.${logValueChars[3]}`);
-            } else if (logValueChars[1] == '0') {
-                // 75.3が7053になってしまう問題の対応
-                console.log('修正パターンB');
-                logValue = parseFloat(`${logValueChars[0]}${logValueChars[2]}.${logValueChars[3]}`);
-            } else {
-                // 72.33が7233になってしまう問題の対応
-                console.log('修正パターンC');
-                logValue = parseFloat(`${logValueChars[0]}${logValueChars[1]}.${logValueChars[2]}${logValueChars[3]}`);
-            }
-            console.log(`${logValueStr} -> ${logValue}`);
-        }
+        let logValue = util.adjustDecimalValue(integerSlotValue, decimalSlotValue);
         // 小数第2位で四捨五入
         logValue = (Math.round(logValue * 10)) / 10;
 
