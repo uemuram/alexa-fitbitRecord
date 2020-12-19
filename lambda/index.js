@@ -32,7 +32,34 @@ const SelectLogTypeIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SelectLogTypeIntent';
     },
     handle(handlerInput) {
-        const speakOutput = '今日の体重を教えてください。';
+        const logTypeSlot = util.getSlotInfo(handlerInput, 'LogType');
+        const logType = logTypeSlot.id;
+        console.log(`ログタイプ : ${logType}`);
+
+        let speakOutput;
+        if (!logType) {
+            console.log('ログタイプ取得不可');
+            util.setSessionValue(handlerInput, 'LOG_TYPE', null);
+            speakOutput = '体重、体脂肪率、水分量を記録できます。何を記録しますか?';
+            return handlerInput.responseBuilder
+                .speak(speakOutput)
+                .reprompt(speakOutput)
+                .getResponse();
+        }
+
+        util.setSessionValue(handlerInput, 'LOG_TYPE', logType);
+        switch (logType) {
+            case 'weight':
+                speakOutput = '今日の体重を教えてください。';
+                break;
+            case 'fat':
+                speakOutput = '今日の体脂肪率を教えてください。';
+                break;
+            case 'water':
+                speakOutput = '水を何カップ飲みましたか?';
+                break;
+        }
+
         return handlerInput.responseBuilder
             .speak(speakOutput)
             .reprompt(speakOutput)

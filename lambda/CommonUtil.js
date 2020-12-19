@@ -1,34 +1,64 @@
 const AWS = require('aws-sdk');
+const Alexa = require('ask-sdk-core');
 
 class CommonUtil {
 
     // 状態をチェック
-    checkState(h, state) {
-        return (this.getState(h) == state);
+    checkState(handlerInput, state) {
+        return (this.getState(handlerInput) == state);
     }
 
     //状態を取得
-    getState(h) {
-        return this.getSessionValue(h, 'STATE');
+    getState(handlerInput) {
+        return this.getSessionValue(handlerInput, 'STATE');
     }
 
     //状態を保存
-    setState(h, state) {
-        this.setSessionValue(h, 'STATE', state);
+    setState(handlerInput, state) {
+        this.setSessionValue(handlerInput, 'STATE', state);
     }
 
     // セッションから値を取得
-    getSessionValue(h, key) {
-        const attr = h.attributesManager.getSessionAttributes();
+    getSessionValue(handlerInput, key) {
+        const attr = handlerInput.attributesManager.getSessionAttributes();
         return attr[key];
     }
 
     // セッションに値を入れる
-    setSessionValue(h, key, value) {
-        let attr = h.attributesManager.getSessionAttributes();
+    setSessionValue(handlerInput, key, value) {
+        let attr = handlerInput.attributesManager.getSessionAttributes();
         attr[key] = value
-        h.attributesManager.setSessionAttributes(attr);
+        handlerInput.attributesManager.setSessionAttributes(attr);
         console.log("セッション保存 : " + JSON.stringify({ 'key': key, 'value': value }));
+    }
+
+    // セッションからスロット情報を取得
+    // value,id
+    getSlotInfo(handlerInput, slotName) {
+        let slotInfo = {
+            value: null,
+            id: null,
+            statusCode: null
+        };
+
+        // スロット値を設定
+        const slotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, slotName);
+        slotInfo.value = slotValue;
+
+        if (slotValue) {
+            // ステータスを設定
+            const resolutionsPerAuthority = handlerInput.requestEnvelope.request.intent.slots[slotName].resolutions.resolutionsPerAuthority[0];
+            const statusCode = resolutionsPerAuthority.status.code;
+            slotInfo.statusCode = statusCode;
+
+            // IDを設定
+            if (statusCode == 'ER_SUCCESS_MATCH') {
+                const slotId = resolutionsPerAuthority.values[0].value.id;
+                slotInfo.id = slotId;
+            }
+        }
+        console.log(`スロット値取得(${slotName}) : ${JSON.stringify(slotInfo)}`);
+        return slotInfo;
     }
 
     // パラメータストアから値を取得(再利用のために取得後にセッションに格納)
