@@ -21,10 +21,9 @@ const LaunchRequestHandler = {
             .getResponse();
     }
 
-    // TODO 体重はxxキロ、という言い方でも対応できるようにする
-    // TODO ダイアログモデルで何かできる?
-    // よさそうだが今回は数値入力のせいで無理かな・・・
-    // https://developer.amazon.com/ja-JP/docs/alexa/custom-skills/define-the-dialog-to-collect-and-confirm-required-information.html
+    // TODO 初回起動時のみ何を記録するかを読み上げる、2回目以降は何を記録しますか、とだけ聞く
+    // TODO 何を記録するかでヒットしなければ記録できる候補を読み上げる
+    // TODO RecordWeightLogIntent、RecordFatLogIntentは集約するか?
 };
 
 const SelectLogTypeIntentHandler = {

@@ -67,6 +67,71 @@
                 },
 
                 {
+                    "name": "RecordFatLogIntent",
+                    "slots": [
+                        {
+                            "name": "Integer",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "Decimal",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "体脂肪 {Integer} ",
+                        "体脂肪 {Integer} 点 {Decimal} ",
+                        "体脂肪 {Integer} パーセント",
+                        "体脂肪 {Integer} 点 {Decimal} パーセント",
+
+                        "体脂肪 {Integer} で記録",
+                        "体脂肪 {Integer} 点 {Decimal} で記録",
+                        "体脂肪 {Integer} キロ で記録",
+                        "体脂肪 {Integer} 点 {Decimal} パーセント で記録",
+
+                        "体脂肪 {Integer} で記録して",
+                        "体脂肪 {Integer} 点 {Decimal} で記録して",
+                        "体脂肪 {Integer} キロ で記録して",
+                        "体脂肪 {Integer} 点 {Decimal} パーセント で記録して",
+
+                        "体脂肪を {Integer} で記録",
+                        "体脂肪を {Integer} 点 {Decimal} で記録",
+                        "体脂肪を {Integer} キロ で記録",
+                        "体脂肪を {Integer} 点 {Decimal} パーセント で記録",
+
+                        "体脂肪を {Integer} で記録して",
+                        "体脂肪を {Integer} 点 {Decimal} で記録して",
+                        "体脂肪を {Integer} キロ で記録して",
+                        "体脂肪を {Integer} 点 {Decimal} パーセント で記録して",
+                        
+                        "体脂肪率 {Integer} ",
+                        "体脂肪率 {Integer} 点 {Decimal} ",
+                        "体脂肪率 {Integer} パーセント",
+                        "体脂肪率 {Integer} 点 {Decimal} パーセント",
+
+                        "体脂肪率 {Integer} で記録",
+                        "体脂肪率 {Integer} 点 {Decimal} で記録",
+                        "体脂肪率 {Integer} キロ で記録",
+                        "体脂肪率 {Integer} 点 {Decimal} パーセント で記録",
+
+                        "体脂肪率 {Integer} で記録して",
+                        "体脂肪率 {Integer} 点 {Decimal} で記録して",
+                        "体脂肪率 {Integer} キロ で記録して",
+                        "体脂肪率 {Integer} 点 {Decimal} パーセント で記録して",
+
+                        "体脂肪率を {Integer} で記録",
+                        "体脂肪率を {Integer} 点 {Decimal} で記録",
+                        "体脂肪率を {Integer} キロ で記録",
+                        "体脂肪率を {Integer} 点 {Decimal} パーセント で記録",
+
+                        "体脂肪率を {Integer} で記録して",
+                        "体脂肪率を {Integer} 点 {Decimal} で記録して",
+                        "体脂肪率を {Integer} キロ で記録して",
+                        "体脂肪率を {Integer} 点 {Decimal} パーセント で記録して"
+                    ]
+                },
+
+                {
                     "name": "SelectLogTypeIntent",
                     "slots": [],
                     "samples": [
@@ -92,7 +157,9 @@
                         " {Integer} キロ",
                         " {Integer} 点 {Decimal} キロ",
                         " {Integer} キログラム",
-                        " {Integer} 点 {Decimal} キログラム"
+                        " {Integer} 点 {Decimal} キログラム",
+                        " {Integer} パーセント",
+                        " {Integer} 点 {Decimal} パーセント"
                     ]
                 },
                 {
