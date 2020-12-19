@@ -33,7 +33,6 @@ class CommonUtil {
     }
 
     // セッションからスロット情報を取得
-    // value,id
     getSlotInfo(handlerInput, slotName) {
         let slotInfo = {
             value: null,
