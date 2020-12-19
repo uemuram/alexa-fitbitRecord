@@ -15,9 +15,8 @@
                     "name": "AMAZON.StopIntent",
                     "samples": []
                 },
-
                 {
-                    "name": "RecordWeightLogIntent",
+                    "name": "SpecifyLogTypeAndRecordLogIntent",
                     "slots": [
                         {
                             "name": "Integer",
@@ -26,117 +25,62 @@
                         {
                             "name": "Decimal",
                             "type": "AMAZON.FOUR_DIGIT_NUMBER"
-                        }
-                    ],
-                    "samples": [
-                        "体重 {Integer} ",
-                        "体重 {Integer} 点 {Decimal} ",
-                        "体重 {Integer} キロ",
-                        "体重 {Integer} 点 {Decimal} キロ",
-                        "体重 {Integer} キログラム",
-                        "体重 {Integer} 点 {Decimal} キログラム",
-
-                        "体重 {Integer} で記録",
-                        "体重 {Integer} 点 {Decimal} で記録",
-                        "体重 {Integer} キロ で記録",
-                        "体重 {Integer} 点 {Decimal} キロ で記録",
-                        "体重 {Integer} キログラム で記録",
-                        "体重 {Integer} 点 {Decimal} キログラム で記録",
-
-                        "体重 {Integer} で記録して",
-                        "体重 {Integer} 点 {Decimal} で記録して",
-                        "体重 {Integer} キロ で記録して",
-                        "体重 {Integer} 点 {Decimal} キロ で記録して",
-                        "体重 {Integer} キログラム で記録して",
-                        "体重 {Integer} 点 {Decimal} キログラム で記録して",
-
-                        "体重を {Integer} で記録",
-                        "体重を {Integer} 点 {Decimal} で記録",
-                        "体重を {Integer} キロ で記録",
-                        "体重を {Integer} 点 {Decimal} キロ で記録",
-                        "体重を {Integer} キログラム で記録",
-                        "体重を {Integer} 点 {Decimal} キログラム で記録",
-
-                        "体重を {Integer} で記録して",
-                        "体重を {Integer} 点 {Decimal} で記録して",
-                        "体重を {Integer} キロ で記録して",
-                        "体重を {Integer} 点 {Decimal} キロ で記録して",
-                        "体重を {Integer} キログラム で記録して",
-                        "体重を {Integer} 点 {Decimal} キログラム で記録して"
-                    ]
-                },
-
-                {
-                    "name": "RecordFatLogIntent",
-                    "slots": [
-                        {
-                            "name": "Integer",
-                            "type": "AMAZON.NUMBER"
                         },
                         {
-                            "name": "Decimal",
-                            "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                            "name": "LogType",
+                            "type": "LOG_TYPE"
+                        },
+                        {
+                            "name": "Unit",
+                            "type": "UNIT"
                         }
                     ],
                     "samples": [
-                        "体脂肪 {Integer} ",
-                        "体脂肪 {Integer} 点 {Decimal} ",
-                        "体脂肪 {Integer} パーセント",
-                        "体脂肪 {Integer} 点 {Decimal} パーセント",
+                        " {LogType} {Integer} ",
+                        " {LogType} {Integer} 点 {Decimal} ",
+                        " {LogType} {Integer} {Unit} ",
+                        " {LogType} {Integer} 点 {Decimal} {Unit} ",
 
-                        "体脂肪 {Integer} で記録",
-                        "体脂肪 {Integer} 点 {Decimal} で記録",
-                        "体脂肪 {Integer} キロ で記録",
-                        "体脂肪 {Integer} 点 {Decimal} パーセント で記録",
+                        " {LogType} {Integer} で記録",
+                        " {LogType} {Integer} 点 {Decimal} で記録",
+                        " {LogType} {Integer} {Unit} で記録",
+                        " {LogType} {Integer} 点 {Decimal} {Unit} で記録",
 
-                        "体脂肪 {Integer} で記録して",
-                        "体脂肪 {Integer} 点 {Decimal} で記録して",
-                        "体脂肪 {Integer} キロ で記録して",
-                        "体脂肪 {Integer} 点 {Decimal} パーセント で記録して",
+                        " {LogType} {Integer} で記録して",
+                        " {LogType} {Integer} 点 {Decimal} で記録して",
+                        " {LogType} {Integer} {Unit} で記録して",
+                        " {LogType} {Integer} 点 {Decimal} {Unit} で記録して",
 
-                        "体脂肪を {Integer} で記録",
-                        "体脂肪を {Integer} 点 {Decimal} で記録",
-                        "体脂肪を {Integer} キロ で記録",
-                        "体脂肪を {Integer} 点 {Decimal} パーセント で記録",
+                        " {LogType} を {Integer} で記録",
+                        " {LogType} を {Integer} 点 {Decimal} で記録",
+                        " {LogType} を {Integer} {Unit} で記録",
+                        " {LogType} を {Integer} 点 {Decimal} {Unit} で記録",
 
-                        "体脂肪を {Integer} で記録して",
-                        "体脂肪を {Integer} 点 {Decimal} で記録して",
-                        "体脂肪を {Integer} キロ で記録して",
-                        "体脂肪を {Integer} 点 {Decimal} パーセント で記録して",
-                        
-                        "体脂肪率 {Integer} ",
-                        "体脂肪率 {Integer} 点 {Decimal} ",
-                        "体脂肪率 {Integer} パーセント",
-                        "体脂肪率 {Integer} 点 {Decimal} パーセント",
+                        " {LogType} を {Integer} で記録して",
+                        " {LogType} を {Integer} 点 {Decimal} で記録して",
+                        " {LogType} を {Integer} {Unit} で記録して",
+                        " {LogType} を {Integer} 点 {Decimal} {Unit} で記録して",
 
-                        "体脂肪率 {Integer} で記録",
-                        "体脂肪率 {Integer} 点 {Decimal} で記録",
-                        "体脂肪率 {Integer} キロ で記録",
-                        "体脂肪率 {Integer} 点 {Decimal} パーセント で記録",
-
-                        "体脂肪率 {Integer} で記録して",
-                        "体脂肪率 {Integer} 点 {Decimal} で記録して",
-                        "体脂肪率 {Integer} キロ で記録して",
-                        "体脂肪率 {Integer} 点 {Decimal} パーセント で記録して",
-
-                        "体脂肪率を {Integer} で記録",
-                        "体脂肪率を {Integer} 点 {Decimal} で記録",
-                        "体脂肪率を {Integer} キロ で記録",
-                        "体脂肪率を {Integer} 点 {Decimal} パーセント で記録",
-
-                        "体脂肪率を {Integer} で記録して",
-                        "体脂肪率を {Integer} 点 {Decimal} で記録して",
-                        "体脂肪率を {Integer} キロ で記録して",
-                        "体脂肪率を {Integer} 点 {Decimal} パーセント で記録して"
+                        " {LogType} 記録 {Integer} ",
+                        " {LogType} 記録 {Integer} 点 {Decimal} ",
+                        " {LogType} 記録 {Integer} {Unit} ",
+                        " {LogType} 記録 {Integer} 点 {Decimal} {Unit} "
                     ]
                 },
-
                 {
                     "name": "SelectLogTypeIntent",
-                    "slots": [],
+                    "slots": [
+                        {
+                            "name": "LogType",
+                            "type": "LOG_TYPE"
+                        }
+                    ],
                     "samples": [
-                        "体重",
-                        "体重を記録して"
+                        " {LogType} ",
+                        " {LogType} 記録",
+                        " {LogType} 記録して",
+                        " {LogType} を記録",
+                        " {LogType} を記録して"
                     ]
                 },
                 {
@@ -149,17 +93,17 @@
                         {
                             "name": "Decimal",
                             "type": "AMAZON.FOUR_DIGIT_NUMBER"
+                        },
+                        {
+                            "name": "Unit",
+                            "type": "UNIT"
                         }
                     ],
                     "samples": [
                         " {Integer} ",
                         " {Integer} 点 {Decimal} ",
-                        " {Integer} キロ",
-                        " {Integer} 点 {Decimal} キロ",
-                        " {Integer} キログラム",
-                        " {Integer} 点 {Decimal} キログラム",
-                        " {Integer} パーセント",
-                        " {Integer} 点 {Decimal} パーセント"
+                        " {Integer} {Unit} ",
+                        " {Integer} 点 {Decimal} {Unit} "
                     ]
                 },
                 {
@@ -167,7 +111,79 @@
                     "samples": []
                 }
             ],
-            "types": []
+            "types": [
+                {
+                    "name": "LOG_TYPE",
+                    "values": [
+                        {
+                            "id": "weight",
+                            "name": {
+                                "value": "体重"
+                            }
+                        },
+                        {
+                            "id": "fal",
+                            "name": {
+                                "value": "体脂肪",
+                                "synonyms": [
+                                    "体脂肪率"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "water",
+                            "name": {
+                                "value": "水分",
+                                "synonyms": [
+                                    "水分摂取量",
+                                    "水分量"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "UNIT",
+                    "values": [
+                        {
+                            "id": "kg",
+                            "name": {
+                                "value": "キロ",
+                                "synonyms": [
+                                    "キログラム"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "percent",
+                            "name": {
+                                "value": "パーセント",
+                                "synonyms": [
+                                    "パー"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "cup",
+                            "name": {
+                                "value": "カップ",
+                                "synonyms": [
+                                    "杯"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "ml",
+                            "name": {
+                                "value": "ミリリットル",
+                                "synonyms": [
+                                    "ミリ"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     }
 }

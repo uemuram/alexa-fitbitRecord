@@ -40,10 +40,10 @@ const SelectLogTypeIntentHandler = {
     }
 };
 
-const RecordWeightLogIntentHandler = {
+const SpecifyLogTypeAndRecordLogIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RecordWeightLogIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SpecifyLogTypeAndRecordLogIntent';
     },
     async handle(handlerInput) {
         // アクセストークンを取得
@@ -167,8 +167,8 @@ exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
         SelectLogTypeIntentHandler,
+        SpecifyLogTypeAndRecordLogIntentHandler,
         RecordLogIntentHandler,
-        RecordWeightLogIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         SessionEndedRequestHandler,
