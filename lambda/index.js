@@ -32,21 +32,14 @@ const SelectLogTypeIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SelectLogTypeIntent';
     },
     handle(handlerInput) {
-        const logTypeSlot = util.getSlotInfo(handlerInput, 'LogType');
-        const logType = logTypeSlot.id;
+        // ログタイプを取得
+        const logType = util.getSlotInfo(handlerInput, 'LogType').id;
         console.log(`ログタイプ : ${logType}`);
-
-        let speakOutput;
         if (!logType) {
-            console.log('ログタイプ取得不可');
-            util.setSessionValue(handlerInput, 'LOG_TYPE', null);
-            speakOutput = '体重、体脂肪率、水分量を記録できます。何を記録しますか?';
-            return handlerInput.responseBuilder
-                .speak(speakOutput)
-                .reprompt(speakOutput)
-                .getResponse();
+            return logic.requestLogType(handlerInput);
         }
 
+        let speakOutput;
         util.setSessionValue(handlerInput, 'LOG_TYPE', logType);
         switch (logType) {
             case 'weight':
@@ -76,9 +69,29 @@ const SpecifyLogTypeAndRecordLogIntentHandler = {
         // アクセストークンを取得
         const token = Alexa.getAccountLinkingAccessToken(handlerInput.requestEnvelope);
         // TODO トークン取得ができなかった時の処理
-        // TODO セッションを判別して何を計測するかを判定
 
-        return logic.recodeWeight(handlerInput, token);
+        // ログタイプを取得
+        const logType = util.getSlotInfo(handlerInput, 'LogType').id;
+        console.log(`ログタイプ : ${logType}`);
+        if (!logType) {
+            return logic.requestLogType(handlerInput);
+        }
+
+        // ログタイプに応じて値を記録
+        let response;
+        switch (logType) {
+            case 'weight':
+                response = logic.recodeWeight(handlerInput, token);
+                break;
+            case 'fat':
+                response = null;
+                break;
+            case 'water':
+                response = null;
+                break;
+        }
+
+        return response;
     }
 };
 
@@ -91,9 +104,29 @@ const RecordLogIntentHandler = {
         // アクセストークンを取得
         const token = Alexa.getAccountLinkingAccessToken(handlerInput.requestEnvelope);
         // TODO トークン取得ができなかった時の処理
-        // TODO セッションを判別して何を計測するかを判定
 
-        return logic.recodeWeight(handlerInput, token);
+        // セッションからログタイプを取得
+        const logType = util.getSessionValue(handlerInput, 'LOG_TYPE');
+        console.log(`ログタイプ : ${logType}`);
+        if (!logType) {
+            return logic.requestLogType(handlerInput);
+        }
+
+        // ログタイプに応じて値を記録
+        let response;
+        switch (logType) {
+            case 'weight':
+                response = logic.recodeWeight(handlerInput, token);
+                break;
+            case 'fat':
+                response = null;
+                break;
+            case 'water':
+                response = null;
+                break;
+        }
+
+        return response;
     }
 };
 

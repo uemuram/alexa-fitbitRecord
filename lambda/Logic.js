@@ -7,9 +7,15 @@ const util = new CommonUtil();
 
 class Logic {
 
-    // 状態をチェック
-    test() {
-        return "テスト";
+    // ログタイプ要求メッセージ
+    requestLogType(handlerInput) {
+        console.log('ログタイプ要求');
+        util.setSessionValue(handlerInput, 'LOG_TYPE', null);
+        const speakOutput = '体重、体脂肪率、水分量を記録できます。何を記録しますか?';
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
     }
 
     // 体重を記録
@@ -24,7 +30,7 @@ class Logic {
         let logValue = util.adjustDecimalValue(integerSlotValue, decimalSlotValue);
         // 小数第2位で四捨五入
         logValue = (Math.round(logValue * 10)) / 10;
-
+        // TODO logValueの値チェック。undefだったりした場合の処理
         // TODO 上限値の設定が必要
 
         // 本日日付け(日本時間にするために+9時間する)
