@@ -87,7 +87,7 @@ const SpecifyLogTypeAndRecordLogIntentHandler = {
                 response = logic.recodeFat(handlerInput, token);
                 break;
             case 'water':
-                response = null;
+                response = logic.recodeWater(handlerInput, token);
                 break;
         }
 
@@ -122,7 +122,7 @@ const RecordLogIntentHandler = {
                 response = logic.recodeFat(handlerInput, token);
                 break;
             case 'water':
-                response = null;
+                response = logic.recodeWater(handlerInput, token);
                 break;
         }
 

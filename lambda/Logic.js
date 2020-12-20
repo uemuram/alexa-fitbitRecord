@@ -38,7 +38,7 @@ class Logic {
         today.setHours(today.getHours() + 9);
 
         // リクエストURL組み立て
-        const url = `https://api.fitbit.com/1/user/-/body/log/weight.json?weight=${logValue}&date=${util.formatDate(today)}`
+        const url = `https://api.fitbit.com/1/user/-/body/log/weight.json?weight=${logValue}&date=${util.formatDate(today)}`;
         console.log(`url : ${url}`);
 
         // リクエスト実行
@@ -78,7 +78,7 @@ class Logic {
         today.setHours(today.getHours() + 9);
 
         // リクエストURL組み立て
-        const url = `https://api.fitbit.com/1/user/-/body/log/fat.json?fat=${logValue}&date=${util.formatDate(today)}`
+        const url = `https://api.fitbit.com/1/user/-/body/log/fat.json?fat=${logValue}&date=${util.formatDate(today)}`;
         console.log(`url : ${url}`);
 
         // リクエスト実行
@@ -97,6 +97,47 @@ class Logic {
             .reprompt(speakOutput)
             .getResponse();
     }
+
+    // 水分摂取量を記録
+    async recodeWater(handlerInput, token) {
+        // スロット値を取得
+        const integerSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Integer');
+        console.log('スロット値(Integer) : ' + integerSlotValue);
+        const decimalSlotValue = Alexa.getSlotValue(handlerInput.requestEnvelope, 'Decimal');
+        console.log('スロット値(Decimal) : ' + decimalSlotValue);
+
+        // 値を整理
+        let logValue = util.adjustDecimalValue(integerSlotValue, decimalSlotValue);
+        // 小数第2位で四捨五入
+        logValue = (Math.round(logValue * 10)) / 10;
+        // TODO logValueの値チェック。undefだったりした場合の処理
+        // TODO 上限値の設定が必要
+
+        // 本日日付け(日本時間にするために+9時間する)
+        let today = new Date();
+        today.setHours(today.getHours() + 9);
+
+        // リクエストURL組み立て
+        const url = `https://api.fitbit.com/1/user/-/foods/log/water.json?amount=${logValue}&date=${util.formatDate(today)}&unit=cup`;
+        console.log(`url : ${url}`);
+
+        // リクエスト実行
+        let response;
+        try {
+            response = await Axios.post(url, null, { headers: { Authorization: `Bearer ${token}` } });
+        } catch (error) {
+            console.log(JSON.stringify(error.response.data));
+        }
+        console.log(response.data);
+
+        const speakOutput = `${logValue}カップの水分摂取量を記録しました。`;
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .withSimpleCard('タイトル', integerSlotValue + "/" + decimalSlotValue)
+            .reprompt(speakOutput)
+            .getResponse();
+    }
+
 
 }
 
